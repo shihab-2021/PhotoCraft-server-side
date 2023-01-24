@@ -111,22 +111,8 @@ async function run() {
 
     app.get("/services", async (req, res) => {
       const cursor = servicesCollection.find({});
-      const page = req.query.page;
-      const size = parseInt(req.query.size);
-      let result;
-      if (page) {
-        result = await cursor
-          .skip(page * size)
-          .limit(size)
-          .toArray();
-      } else {
-        result = await cursor.toArray();
-      }
-      const count = await cursor.count();
-      res.send({
-        count,
-        result,
-      });
+      const services = await cursor.toArray();
+      res.json(services);
     });
 
     // for single product
